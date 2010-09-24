@@ -1,0 +1,23 @@
+CC = g++
+C_FLAGS = -g3 -Wall -c -fmessage-length=0
+
+LIBS = -lpthread -lws2_32
+
+EXE = annad
+SRC = $(wildcard src/*.cpp) $(wildcard src/*/*.cpp)
+OBJ = $(patsubst %.cpp, %.o, $(SRC))
+
+O_DIR = bin
+
+all: $(EXE)
+
+make: $(OBJ)
+	
+clean:
+	rm -f $(OBJ) $(EXE)
+	
+%.o: %.cpp
+	$(CC) $(C_FLAGS) -o $@ $<
+	
+$(EXE): $(OBJ)
+	$(CC) -o $@ $(OBJ) $(LIBS)

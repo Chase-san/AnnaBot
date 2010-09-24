@@ -1,0 +1,41 @@
+  NONE OF THE COMMANDS TRIGGER EVENTS
+EVENTS ARE TRIGGERED FROM THE SERVER ONLY
+        (with few exceptions)
+
+--Minor
+Add quit command
+Add quit(reason) command
+...
+
+--Moderate
+Add on_mode overloadable function
+Add on_user_mode overloadable function
+Add on_channel_key_set overloadable function
+Add on_channel_key_remove overloadable function
+...
+
+--Major
+NOTE: I have decided a user tracking system is beyond the scope of this project.
+
+Add handle_mode function
++This will delegate out into overloadable functions like on_op and on_deop
++Add on_ban overloadable function
++Add on_unban overloadable function
+
++Add on_owner overloadable function
++Add on_deowner overloadable function
++Add on_admin overloadable function
++Add on_deadmin overloadable function
++Add on_op overloadable function
++Add on_deop overloadable function
++Add on_hop overloadable function
++Add on_dehop overloadable function
++Add on_voice overloadable function
++Add on_devoice overloadable function
+
+Note: 
+~ owner (q)
+& admin aka protected (a)
+@ operator (op) (o)
+% half operator (half op) (h)
++ voice (v)

@@ -1,0 +1,8 @@
+# Nickname and Alternate nickname
+nick = Anna
+alt_nick = Natsuko
+
+# Server data
+host = localhost
+port = 6667
+
