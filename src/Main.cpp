@@ -6,7 +6,9 @@
 #include "lib/ReaderINI.h"
 #include "IRC.h"
 #include <cstdio>
+#ifndef WIN32
 #include <unistd.h>
+#endif
 
 int main(int argc, char *argv[]) {
 	string host, nick, alt;
@@ -54,7 +56,7 @@ int main(int argc, char *argv[]) {
 				irc.sendRaw(raw);
 			}
 		}
-		usleep(10000);
+		mpSleep(10000);
 	}
 
 	return 0;

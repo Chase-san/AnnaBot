@@ -8,15 +8,24 @@
 #ifndef __ANNA_IRC_H__
 #define __ANNA_IRC_H__
 
-#include "lib/SocketLite.h"
+#ifdef _WIN32
+#ifndef WIN32
+#define WIN32
+#endif
+#endif
+
+#include "lib/Sockets/SocketLite.h"
+#include "lib/thread/Thread.h"
 #include "Numeric.h"
-#include <pthread.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <queue>
 #include <map>
 
 using namespace std;
+
+
+void mpSleep(int time);
 
 class IRC {
 	friend void* irc_thread_fun(void*);
@@ -283,9 +292,9 @@ private:
 	void run(); /* IRC Thread */
 	void input(); /* Socket Input Thread */
 	void output(); /* Socket Output Thread */
-	pthread_t irc_thread;
-	pthread_t input_thread;
-	pthread_t output_thread;
+	typedef Thread<void*> irc_thread;
+	typedef Thread<void*> input_thread;
+	typedef Thread<void*> output_thread;
 
 	bool connected;
 
@@ -301,5 +310,6 @@ private:
 	string _password;
 	uint32_t _port;
 };
+
 
 #endif /* __ANNA_IRC_H__ */

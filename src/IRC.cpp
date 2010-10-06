@@ -11,8 +11,10 @@
 #include <cstdlib>
 #include <cstring>
 #include <cstdio>
-#include <unistd.h>
 #include <time.h>
+#ifndef WIN32
+#include <unistd.h>
+#endif
 
 #define SLEEP_TIME	1
 #define VERSION		"0.1.23"
@@ -32,6 +34,14 @@ void* input_thread_fun(void* ptr) {
 void* output_thread_fun(void* ptr) {
 	static_cast<IRC*> (ptr)->output();
 	return 0;
+}
+
+void mpSleep(int time) {
+#ifdef WIN32
+	Sleep(time);
+#else
+	usleep(time);
+#endif
 }
 
 IRC::IRC() {
@@ -56,8 +66,16 @@ void IRC::connect(const string& host, const uint32_t port) {
 	_port = port;
 	socket = new Socket(host,port);
 
-	pthread_create(&input_thread, NULL, input_thread_fun, (void*) this);
-	pthread_create(&output_thread, NULL, output_thread_fun, (void*) this);
+	irc_thread::Handle irch;
+	input_thread::Handle inh;
+	output_thread::Handle outh;
+
+	//OLD pthread stuff
+	//pthread_create(&input_thread, NULL, input_thread_fun, (void*) this);
+	//pthread_create(&output_thread, NULL, output_thread_fun, (void*) this);
+
+	input_thread::Create((input_thread::Handler)input_thread_fun,(void*)this,&inh);
+	output_thread::Create((output_thread::Handler)output_thread_fun,(void*)this,&outh);
 
 	write("USER " + _login + " host server : " + _client);
 	write("NICK " + _nick);
@@ -83,7 +101,9 @@ void IRC::connect(const string& host, const uint32_t port) {
 		}
 	}
 
-	pthread_create(&irc_thread, NULL, irc_thread_fun, (void*) this);
+	//pthread_create(&irc_thread, NULL, irc_thread_fun, (void*) this);
+	irc_thread::Create((irc_thread::Handler)irc_thread_fun,(void*)this,&irch);
+
 	onConnect();
 }
 
@@ -490,7 +510,7 @@ void IRC::input() {
 			line_buffer = line_buffer.substr(line + 1);
 		}
 
-		usleep(SLEEP_TIME);
+		mpSleep(SLEEP_TIME);
 	}
 
 	onDisconnect();
@@ -503,7 +523,7 @@ void IRC::output() {
 			output_buffer.pop();
 			socket->write(out.c_str(), out.length());
 		}
-		usleep(SLEEP_TIME);
+		mpSleep(SLEEP_TIME);
 	}
 }
 
@@ -514,7 +534,7 @@ void IRC::run() {
 		if(line.length() > 0) {
 			handle(line);
 		}
-		usleep(SLEEP_TIME);
+		mpSleep(SLEEP_TIME);
 	}
 }
 

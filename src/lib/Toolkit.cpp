@@ -8,8 +8,10 @@
 #include "Toolkit.h"
 #include <stdlib.h>
 #include <stdio.h>
-#include <unistd.h>
 #include <sys/stat.h>
+#ifndef WIN32
+#include <unistd.h>
+#endif
 
 using namespace std;
 
