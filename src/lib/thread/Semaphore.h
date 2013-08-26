@@ -4,9 +4,9 @@
 #include <errno.h>
 
 #ifdef WIN32
-  #include "Win32/Semaphore.h"
+  #include "win32/Semaphore.h"
 #else
-  #include "Posix/Semaphore.h"
+  #include "posix/Semaphore.h"
 #endif
 
 #endif // !_Semaphore_

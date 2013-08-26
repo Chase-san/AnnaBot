@@ -202,14 +202,8 @@ void Socket::connect(const string &address, unsigned short port)
 				throw ex_connect;
 #endif
 
-			uint8_t out[8];
-			out[0] = 0x04;
-			out[1] = 0x01;
-
 			split spl;
 			spl.r16a = ::htons(port);
-			out[2] = spl.r8a;
-			out[3] = spl.r8b;
 
 			if(_socks->_protocol != SOCKS_4a) {
 				sockaddr_in destAddr;
@@ -218,10 +212,6 @@ void Socket::connect(const string &address, unsigned short port)
 					return;
 
 				spl.r32a = destAddr.sin_addr.s_addr;
-				out[4] = spl.r8a;
-				out[5] = spl.r8b;
-				out[6] = spl.r8c;
-				out[7] = spl.r8d;
 			}
 			write((void*)_socks->_id.c_str(),_socks->_id.length()+1);
 

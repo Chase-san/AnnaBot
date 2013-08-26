@@ -19,7 +19,7 @@
 
 template
 <
-  typename Thread_T
+	typename Thread_T
 >
 class Thread
 {
@@ -171,6 +171,7 @@ class Thread
 //  Explicit specialization, no thread parameters
 //
 
+template<>
 class Thread<void>
 {
   private:
@@ -217,7 +218,7 @@ class Thread<void>
 
       Instance I(0,Function,CancelEnable,CancelAsync);
 
-      int R = pthread_create((pthread_t *)H,&attr,ThreadMainHandler,(void *)&I);
+      int R = pthread_create((pthread_t *)H,&attr,ThreadMainHandler,&I);
       pthread_attr_destroy(&attr);
 
       if ( !R ) S_Create().Wait();

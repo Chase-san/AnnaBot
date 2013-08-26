@@ -14,7 +14,7 @@
 #endif
 #endif
 
-#include "lib/Sockets/SocketLite.h"
+#include "lib/sockets/SocketLite.h"
 #include "lib/thread/Thread.h"
 #include "Numeric.h"
 #include <stdint.h>
@@ -23,7 +23,6 @@
 #include <map>
 
 using namespace std;
-
 
 void mpSleep(int time);
 
